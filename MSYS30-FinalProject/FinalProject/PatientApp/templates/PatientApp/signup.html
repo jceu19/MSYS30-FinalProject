@@ -1,0 +1,48 @@
+{% extends "PatientApp/base.html" %}
+
+{% block content %}
+<div class="auth-card">
+    <h2>Sign-Up</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Rendering fields manually to apply custom labels and placeholders -->
+        {% for field in form %}
+            {% if field.name == 'username' %}
+                <label for="{{ field.id_for_label }}">Username</label>
+                {{ field.errors }}
+                <input type="text" 
+                       id="{{ field.id_for_label }}" 
+                       name="{{ field.name }}" 
+                       placeholder="Enter your Username" 
+                       required>
+            {% elif field.label == 'Password' %}
+                 <label for="{{ field.id_for_label }}">Password</label>
+                {{ field.errors }}
+                <input type="password" 
+                       id="{{ field.id_for_label }}" 
+                       name="{{ field.name }}" 
+                       placeholder="Enter your password" 
+                       required>
+            {% else %}
+                <!-- This will primarily handle the 'Password confirmation' field -->
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field.errors }}
+                <input type="password" 
+                       id="{{ field.id_for_label }}" 
+                       name="{{ field.name }}" 
+                       placeholder="Confirm your password" 
+                       required>
+            {% endif %}
+
+        {% endfor %}
+
+        <button type="submit" class="btn-primary">Sign-Up</button>
+    </form>
+
+    <div class="auth-links">
+        <p style="margin-top: 15px; margin-bottom: 5px;">Already have an account?</p>
+        <a href="{% url 'login' %}" class="btn-secondary">Back to Log-in</a>
+    </div>
+</div>
+{% endblock content %}
